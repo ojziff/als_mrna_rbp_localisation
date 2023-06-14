@@ -2,7 +2,7 @@
 
 Oliver Ziff 2023
 
-This repository contains an R Markdown file that includes the scripts necessary to generate each figure in the manuscript. The Rmd file is organised into sections corresponding to the figures in the manuscript. Schematics used in the figures were created using Biorender. Please refer to the instructions provided within the Rmd file to reproduce the figures. 
+This repository contains an R Markdown file that includes the scripts necessary to generate each figure in the manuscript. The Rmd file is organised into sections corresponding to the figures in the manuscript. Schematics used in the figures were created using Biorender. Please refer to the instructions provided within the Rmd file to reproduce the figures. We have included a separate script called "deseq_objects.R" that generates the DESeq2 and DEP objects required for the analysis. Additionally, the script entitled "R_workspace.R" loads all the necessary packages and functions required for the figures. Please run these scripts before executing the R Markdown file to ensure all dependencies are properly set up.
 
 <img src="https://github.com/ojziff/als_mrna_rbp_localisation/figures/graphical abstract.png" height="400">
 
