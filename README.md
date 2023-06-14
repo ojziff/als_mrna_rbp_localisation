@@ -2,13 +2,11 @@
 
 Oliver Ziff 2023
 
-This page contains scripts to analyse the data and reproduce the figures from the manuscript.
+This repository contains an R Markdown file that includes the scripts necessary to generate each figure in the manuscript. The Rmd file is organised into sections corresponding to the figures in the manuscript. Schematics used in the figures were created using Biorender. Please refer to the instructions provided within the Rmd file to reproduce the figures. 
 
 <img src="https://github.com/ojziff/als_mrna_rbp_localisation/figures/graphical abstract.png" height="400">
 
 #### [Manuscript link](https://www.cell.com/neuron/home)
-
-Rmarkdown scripts to reproduce each figure in the manuscript can be found in this repository.
 
 ## Data availability
 
