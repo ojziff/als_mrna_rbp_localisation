@@ -12,7 +12,7 @@ Rmarkdown scripts to reproduce each figure in the manuscript can be found in thi
 
 ## Data availability
 
-RNA sequencing data have been deposited in the GEO under accession number GSE214017. 
+RNA sequencing data have been deposited in the GEO under accession number [GSE214017](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE214017). 
 
 Mass Spectrometry data have been deposited in the ProteomeXchange Consortium via the PRIDE partner repository under identifier PXD037107.
 
