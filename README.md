@@ -4,7 +4,7 @@ Oliver Ziff 2023
 
 This page contains scripts to analyse the data and reproduce the figures from the manuscript.
 
-<img src="https://ojziff.github.io/als_mrna_rbp_localisation/figures/graphical abstract.png" height="400">
+<img src="https://github.com/ojziff/als_mrna_rbp_localisation/figures/graphical abstract.png" height="400">
 
 #### [Manuscript link](https://www.cell.com/neuron/home)
 
