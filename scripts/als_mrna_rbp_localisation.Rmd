@@ -19,18 +19,18 @@ editor_options:
 # set here path https://cran.r-project.org/web/packages/here/vignettes/here.html
 library(here)
 # Mac
-# nemo_path = here("/Volumes/lab-patanir/home/users/ziffo")
-# proj_path = here("/Volumes/lab-patanir/home/users/ziffo/projects/motor-neuron-mislocalisation")
-# script_path = here("/Volumes/lab-patanir/home/users/ziffo/projects/motor-neuron-mislocalisation/scripts")
-# shared_path = here("/Volumes/lab-patanir/home/users/ziffo/proj-luscombn-patani/working")
-# collab_path = here("/Volumes/lab-patanir/home/users/ziffo/patani-collab")
+nemo_path = here("/Volumes/lab-patanir/home/users/ziffo")
+proj_path = here("/Volumes/lab-patanir/home/users/ziffo/projects/motor-neuron-mislocalisation")
+script_path = here("/Volumes/lab-patanir/home/users/ziffo/projects/motor-neuron-mislocalisation/scripts")
+shared_path = here("/Volumes/lab-patanir/home/users/ziffo/proj-luscombn-patani/working")
+collab_path = here("/Volumes/lab-patanir/home/users/ziffo/patani-collab")
 ## OnDemand
 nemo_path = here("/nemo/lab/patanir/home/users/ziffo")
-# .libPaths("/nemo/lab/patanir/home/users/ziffo/R/x86_64-pc-linux-gnu-library/4.0")
 proj_path = here("/nemo/lab/patanir/home/users/ziffo/projects/motor-neuron-mislocalisation")
 script_path = here("/nemo/lab/patanir/home/users/ziffo/projects/motor-neuron-mislocalisation/scripts/als_rna_protein_distribution_ml240")
 shared_path = here("/nemo/project/proj-luscombn-patani/working")
 collab_path = here("/nemo/lab/patanir/home/users/ziffo/patani-collab")
+
 setwd(proj_path)
 set_here(proj_path)
 here(proj_path)
@@ -128,7 +128,7 @@ pr_pull()
 
 ```
 
-# Table S2 RNAseq QC
+# Table S1B RNAseq QC
 
 nuclear & cytoplasm fractions only
 
@@ -510,8 +510,6 @@ ggsave(pca_characterisation.merged, filename = here(proj_path, "expression/deseq
 ```
 
 
-# Fig S1 Coverage tracks nuclear & cytoplasm transcripts
-
 Coverage tracks of known nuclear & cytoplasm markers - run on CAMP
 
 ```{r}
@@ -627,7 +625,9 @@ ggsave(nuc_cyt_coverage_plot.merged, filename = here(proj_path, "expression/cove
 ```
 
 
-# Fig S2 PC1 & PC2 gene loadings
+# Fig S1 nucleocytoplasmic QC
+
+## RNAseq PC1 & PC2 gene loadings
 
 https://stackoverflow.com/questions/12760108/principal-components-analysis-how-to-get-the-contribution-of-each-paramete
 https://github.com/mikelove/DESeq2/blob/master/R/plots.R
@@ -652,13 +652,10 @@ untreated.vsd.loadings.scatter = ggplot(untreated.vsd.loadings, aes(x = PC1, y =
   annotate("text", x = 0.06, y = 0.12, label = "PC1+ PC2+",size = 2.8, color = "black") + annotate("text", x = -0.08, y = -0.12, label = "PC1- PC2-", size = 2.8, color = "black") + 
   annotate("text", x = 0.06, y = -0.12, label = "PC1+ PC2-", size = 2.8, color = "black") + annotate("text", x = -0.08, y = 0.12, label = "PC1- PC2+", size = 2.8, color = "black")
 untreated.vsd.loadings.scatter
-ggsave(untreated.vsd.loadings.scatter, filename = here(proj_path,"expression/deseq2/untreated.vsd.loadings.scatter.png"), height = 9, width = 9)
+# ggsave(untreated.vsd.loadings.scatter, filename = here(proj_path,"expression/deseq2/untreated.vsd.loadings.scatter.png"), height = 9, width = 9)
 # drive_upload(media = here(proj_path,"expression/deseq2/untreated.vsd.loadings.scatter.png"), path = "mRNA redistribution ALS/figS1.vsd.loadings.png", overwrite = TRUE)
 
 ```
-
-
-# Fig S3 Protein nucleocytoplasmic QC
 
 ## Western blot
 
@@ -750,16 +747,16 @@ untreated.nuc_vs_cyt.dep.loadings.scatter = ggplot(untreated.nuc_vs_cyt.dep.load
 
 ```{r}
 untreated.nuc_vs_cyt.dep.pca.merged = plot_grid(
+  untreated.vsd.loadings.scatter,
   western_blot.gg, 
   mass_spec_intensities.nuc_cyt_markers,
   untreated.nuc_vs_cyt.dep.pca.plot, 
   untreated.nuc_vs_cyt.dep.loadings.scatter, 
-  nrow = 4, labels = "auto", rel_heights = c(0.7,1.5,1,1))
+  nrow = 5, labels = "auto", rel_heights = c(1,0.7,1.5,1,1))
 # untreated.nuc_vs_cyt.dep.pca.merged
-ggsave(untreated.nuc_vs_cyt.dep.pca.merged, filename = here(proj_path,"mass-spec/figures/untreated.nuc_vs_cyt.dep.pca.merged.png"), height = 11.5, width = 9)
+ggsave(untreated.nuc_vs_cyt.dep.pca.merged, filename = here(proj_path,"mass-spec/figures/untreated.nuc_vs_cyt.dep.pca.merged.png"), height = 13.5, width = 9)
 
 ```
-
 
 
 
@@ -1827,7 +1824,7 @@ nygc_postmortem_spinal_cord.tx$res.tx %>% filter(padj < 0.05, transcript_id %in%
 ```
 
 
-# Table S3 Transcript redistribution
+# Table S2 Transcript redistribution
 
 ```{r}
 untreated.nuc_vs_cyt.als_vs_ctrl = readRDS(file = here(proj_path, "scripts/untreated.nuc_vs_cyt.als_vs_ctrl.rds"))
@@ -1869,7 +1866,7 @@ untreated.vcp_tardbp_vs_ctrl.nuc_vs_cyt.res.tx.join %>% filter(overlapping != ""
 ```
 
 
-# Fig S4 Scatter correlation
+ Scatter correlation
 
 ```{r}
 untreated.nuc_vs_cyt.als_vs_ctrl_list = list("TARDBP G298S" = untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, "VCP R155C" = untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, "VCP R191Q" = untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, "VCP R191Q knock-in" = untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx)
@@ -1896,7 +1893,7 @@ ggsave(untreated.nuc_vs_cyt.als_vs_ctrl_list_stat_plot, filename = here(proj_pat
 ```
 
 
-# Fig S5 Whole cell Heatmap nuclear export & NPC
+# Fig S2 Whole cell Heatmap nuclear export & NPC
 
 ```{r}
 whole.untreated.tardbp_vs_ctrl$res.tx %>% filter(padj < 0.05) #832
@@ -1947,14 +1944,14 @@ nuclear_export.l2fc.marker.scaled_mat = t(scale(t(nuclear_export.l2fc.marker.mat
 
 nuclear_export.markers.rnaseq.cluster.heatmap <- Heatmap(nuclear_export.l2fc.marker.mat, 
           border = TRUE, heatmap_legend_param = list(title = "", direction = "vertical"), #, annotation_legend_side = "bottom"), show_heatmap_legend = FALSE,
-          column_names_rot = 90, column_names_gp = gpar(fontsize = 10), 
+          column_names_rot = 90, column_names_gp = gpar(fontsize = 12), 
           row_order = nuclear_export.markers.df.filt$gene_name, 
           row_split = nuclear_export.markers.df.filt$group,
-          right_annotation = rowAnnotation(markers = anno_block(gp = gpar(fill = rep("white",8)), labels = c("NPC\nBasket", "NPC\nOrganisation", "Nuclear\nPore","Export\nSignal","Carrier\nActivity","TREX", "RNA\nExport","Nuclear\nExport"), labels_gp = gpar(fontsize = 7), labels_rot = 0)), row_title = NULL,
-          row_names_gp = gpar(fontsize = 5), #show_row_names = FALSE, 
+          right_annotation = rowAnnotation(markers = anno_block(gp = gpar(fill = rep("white",8)), labels = c("NPC\nBasket", "NPC\nOrganisation", "Nuclear\nPore","Export\nSignal","Carrier\nActivity","TREX", "RNA\nExport","Nuclear\nExport"), labels_gp = gpar(fontsize = 10), labels_rot = 0)), row_title = NULL,
+          row_names_gp = gpar(fontsize = 6), #show_row_names = FALSE, 
           column_title = NULL, cluster_columns = FALSE, cluster_row_slices = FALSE, cluster_rows = FALSE)
 nuclear_export.markers.rnaseq.cluster.heatmap
-ggsave(as.ggplot(nuclear_export.markers.rnaseq.cluster.heatmap), filename = here(proj_path,"expression/deseq2/nuclear_export.markers.rnaseq.cluster.heatmap.png"), width = 9, height = 14)
+ggsave(as.ggplot(nuclear_export.markers.rnaseq.cluster.heatmap), filename = here(proj_path,"expression/deseq2/nuclear_export.markers.rnaseq.cluster.heatmap.png"), width = 9.5, height = 14)
 
 nuclear_export.l2fc.marker %>% left_join(nuclear_export.markers.df) %>% filter(TARDBP < 0, VCP.R155C < 0, VCP.R191Q < 0, VCP.KI < 0) %>% mutate(sum = TARDBP + VCP.R155C + VCP.R191Q + VCP.KI) %>% arrange(sum)
 
@@ -2030,7 +2027,7 @@ nuclear_export.marker.bind %>% arrange(padj)
 ```
 
 
-# Fig S6 polyA FISH
+polyA FISH
 
 ```{r}
 # import image
@@ -2838,7 +2835,7 @@ ggsave(sequence_features.rna_rbp_interactions.merged, filename = here(proj_path,
 
 
 
-# Fig S7: Lineplot sequence features & GC content & PhastCons 
+# Fig S3: Lineplot sequence features & GC content & PhastCons 
 
 ## Lineplots
 
@@ -3070,7 +3067,7 @@ ggsave(untreated.nuc_vs_cyt.als_vs_ctrl.sequence_features.merged.legend, filenam
 ```
 
 
-# Fig S8 RNAct RBP view violins
+# Fig S4 RNAct RBP view violins
 
 ```{r}
 # TDP43
@@ -3175,7 +3172,7 @@ ggsave(rnact.protein_view.untreated.nuc_vs_cyt.als_vs_ctrl.violin, filename = he
 ```
 
 
-# Fig S9 Immunofluorescence TDP-43 FUS
+# Fig S5 Immunofluorescence TDP-43 FUS
 
 ```{r}
 # import with magick 
@@ -3222,230 +3219,7 @@ ggsave(tdp43_fus_immuno_ipsn.merged, filename = here(proj_path, "immuno/tdp43_fu
 
 
 
-# Fig S9 CLIP countOverlaps regions
-
-```{r}
-clip_5utr.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_5utr.HepG2_K562_Hela.rds"))
-clip_3utr.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_3utr.HepG2_K562_Hela.rds"))
-clip_cds.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_cds.HepG2_K562_Hela.rds"))
-# clip_exon.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_exon.HepG2_K562_Hela.rds"))
-clip_intron.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_intron.HepG2_K562_Hela.rds"))
-clip_transcript.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_transcript.HepG2_K562_Hela.rds"))
-
-
-# 5UTR
-clip_5utr.HepG2_K562_Hela # 153,186 5UTRs
-clip_5utr.HepG2_K562_Hela %>% count(transcript_id) # 84,046 transcripts. Some transcripts have > 1 5UTR, as composed of multiple exons. Sum them.
-clip_5utr.HepG2_K562_Hela.tx = clip_5utr.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
-clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
-  mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
-  left_join(clip_5utr.HepG2_K562_Hela.tx) %>%
-  mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
-         mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
-         mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
-clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl
-
-clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
-
-clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,2.3), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = TRUE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(1.7, 2.1, 1.6),4), ylabel = expression(log[10]~CLIP~xlinks~5~UTR), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
-clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin
-# facet        .y.   group1               group2    n1    n2 statistic            p        p.adj p.adj.signif y.position groups        xmin  xmax
-#    <fct>        <chr> <chr>                <chr>  <int> <int>     <dbl>        <dbl>        <dbl> <chr>             <dbl> <named list> <dbl> <dbl>
-#  1 TARDBP^G298S lfc   "Non\nRedistributed" Nuc    75078    88  2569415  0.000308     0.000924     ***                 1.7 <chr [2]>        1     2
-#  2 TARDBP^G298S lfc   "Non\nRedistributed" Cyto   75078   148  5026126. 0.045        0.09         ns                  2.1 <chr [2]>        1     3
-#  3 TARDBP^G298S lfc   "Nuc"                Cyto      88   148     7384. 0.086        0.09         ns                  1.6 <chr [2]>        2     3
-#  4 VCP^R155C    lfc   "Non\nRedistributed" Nuc    75094   111  3906231  0.253        0.506        ns                  1.7 <chr [2]>        1     2
-#  5 VCP^R155C    lfc   "Non\nRedistributed" Cyto   75094   109  3738001  0.117        0.351        ns                  2.1 <chr [2]>        1     3
-#  6 VCP^R155C    lfc   "Nuc"                Cyto     111   109     5896. 0.747        0.747        ns                  1.6 <chr [2]>        2     3
-#  7 VCP^R191Q    lfc   "Non\nRedistributed" Nuc    74937   109  3651746. 0.056        0.112        ns                  1.7 <chr [2]>        1     2
-#  8 VCP^R191Q    lfc   "Non\nRedistributed" Cyto   74937   268  8704930. 0.000165     0.000495     ***                 2.1 <chr [2]>        1     3
-#  9 VCP^R191Q    lfc   "Nuc"                Cyto     109   268    14230. 0.695        0.695        ns                  1.6 <chr [2]>        2     3
-# 10 VCPki^R191Q  lfc   "Non\nRedistributed" Nuc    74915   120  3564576. 0.0000871    0.000174     ***                 1.7 <chr [2]>        1     2
-# 11 VCPki^R191Q  lfc   "Non\nRedistributed" Cyto   74915   279  8450300. 0.0000000325 0.0000000975 ****                2.1 <chr [2]>        1     3
-# 12 VCPki^R191Q  lfc   "Nuc"                Cyto     120   279    17257  0.625        0.625        ns                  1.6 <chr [2]>        2     3
-# .y.   group1               group2 effsize facet           n1    n2 magnitude 
-#  * <chr> <chr>                <chr>    <dbl> <fct>        <int> <int> <ord>     
-#  1 lfc   "Non\nRedistributed" Nuc    -0.398  TARDBP^G298S 83797    93 small     
-#  2 lfc   "Non\nRedistributed" Cyto   -0.159  TARDBP^G298S 83797   156 negligible
-#  3 lfc   "Nuc"                Cyto    0.269  TARDBP^G298S    93   156 small     
-#  4 lfc   "Non\nRedistributed" Nuc    -0.133  VCP^R155C    83819   113 negligible
-#  5 lfc   "Non\nRedistributed" Cyto   -0.149  VCP^R155C    83819   114 negligible
-#  6 lfc   "Nuc"                Cyto   -0.0176 VCP^R155C      113   114 negligible
-#  7 lfc   "Non\nRedistributed" Nuc    -0.179  VCP^R191Q    83644   115 negligible
-#  8 lfc   "Non\nRedistributed" Cyto   -0.229  VCP^R191Q    83644   287 small     
-#  9 lfc   "Nuc"                Cyto   -0.0545 VCP^R191Q      115   287 negligible
-# 10 lfc   "Non\nRedistributed" Nuc    -0.363  VCPki^R191Q  83635   122 small     
-# 11 lfc   "Non\nRedistributed" Cyto   -0.327  VCPki^R191Q  83635   289 small     
-# 12 lfc   "Nuc"                Cyto    0.0427 VCPki^R191Q    122   289 negligible
-
-# 3utr
-clip_3utr.HepG2_K562_Hela # 155,153 3utrs
-clip_3utr.HepG2_K562_Hela %>% count(transcript_id) # 77,060 transcripts. Some transcripts have > 1 3utr, as composed of multiple exons. Sum them.
-clip_3utr.HepG2_K562_Hela.tx = clip_3utr.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
-clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
-  mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
-  left_join(clip_3utr.HepG2_K562_Hela.tx) %>%
-  mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
-         mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
-         mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
-clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl
-
-clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
-
-clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,2.6), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = TRUE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(2.0, 2.4, 1.9),4), ylabel = expression(log[10]~CLIP~xlinks~3~UTR), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
-clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin
-# facet        .y.   group1               group2    n1    n2 statistic        p    p.adj p.adj.signif y.position groups        xmin  xmax
-#    <fct>        <chr> <chr>                <chr>  <int> <int>     <dbl>    <dbl>    <dbl> <chr>             <dbl> <named list> <dbl> <dbl>
-#  1 TARDBP^G298S lfc   "Non\nRedistributed" Nuc    71454   109  2576283  9.63e-10 2.89e- 9 ****                2   <chr [2]>        1     2
-#  2 TARDBP^G298S lfc   "Non\nRedistributed" Cyto   71454   156  4493683  2.83e- 5 5.66e- 5 ****                2.4 <chr [2]>        1     3
-#  3 TARDBP^G298S lfc   "Nuc"                Cyto     109   156     9950. 1.8 e- 2 1.8 e- 2 *                   1.9 <chr [2]>        2     3
-#  4 VCP^R155C    lfc   "Non\nRedistributed" Nuc    71488   120  3380240. 5.87e- 5 1.76e- 4 ***                 2   <chr [2]>        1     2
-#  5 VCP^R155C    lfc   "Non\nRedistributed" Cyto   71488   111  3322616  3   e- 3 6   e- 3 **                  2.4 <chr [2]>        1     3
-#  6 VCP^R155C    lfc   "Nuc"                Cyto     120   111     6974  5.37e- 1 5.37e- 1 ns                  1.9 <chr [2]>        2     3
-#  7 VCP^R191Q    lfc   "Non\nRedistributed" Nuc    71292   129  3670756. 7.35e- 5 1.47e- 4 ***                 2   <chr [2]>        1     2
-#  8 VCP^R191Q    lfc   "Non\nRedistributed" Cyto   71292   298  8508170. 2.87e- 9 8.61e- 9 ****                2.4 <chr [2]>        1     3
-#  9 VCP^R191Q    lfc   "Nuc"                Cyto     129   298    19302. 9.46e- 1 9.46e- 1 ns                  1.9 <chr [2]>        2     3
-# 10 VCPki^R191Q  lfc   "Non\nRedistributed" Nuc    71301   130  3807770. 4.32e- 4 8.64e- 4 ***                 2   <chr [2]>        1     2
-# 11 VCPki^R191Q  lfc   "Non\nRedistributed" Cyto   71301   288  7394617  2.25e-16 6.75e-16 ****                2.4 <chr [2]>        1     3
-# 12 VCPki^R191Q  lfc   "Nuc"                Cyto     130   288    16800. 9.3 e- 2 9.3 e- 2 ns                  1.9 <chr [2]>        2     3
-#  .y.   group1               group2 effsize facet           n1    n2 magnitude 
-#  * <chr> <chr>                <chr>    <dbl> <fct>        <int> <int> <ord>     
-#  1 lfc   "Non\nRedistributed" Nuc    -0.553  TARDBP^G298S 76787   110 moderate  
-#  2 lfc   "Non\nRedistributed" Cyto   -0.341  TARDBP^G298S 76787   163 small     
-#  3 lfc   "Nuc"                Cyto    0.270  TARDBP^G298S   110   163 small     
-#  4 lfc   "Non\nRedistributed" Nuc    -0.356  VCP^R155C    76825   120 small     
-#  5 lfc   "Non\nRedistributed" Cyto   -0.289  VCP^R155C    76825   115 small     
-#  6 lfc   "Nuc"                Cyto    0.0764 VCP^R155C      120   115 negligible
-#  7 lfc   "Non\nRedistributed" Nuc    -0.347  VCP^R191Q    76622   132 small     
-#  8 lfc   "Non\nRedistributed" Cyto   -0.330  VCP^R191Q    76622   306 small     
-#  9 lfc   "Nuc"                Cyto    0.0195 VCP^R191Q      132   306 negligible
-# 10 lfc   "Non\nRedistributed" Nuc    -0.320  VCPki^R191Q  76636   130 small     
-# 11 lfc   "Non\nRedistributed" Cyto   -0.479  VCPki^R191Q  76636   294 small     
-# 12 lfc   "Nuc"                Cyto   -0.206  VCPki^R191Q    130   294 small     
-
-# cds
-clip_cds.HepG2_K562_Hela # 763,579 cdss
-clip_cds.HepG2_K562_Hela %>% count(transcript_id) # 100,592 transcripts. Transcripts have > 1 cds, as composed of multiple cdss. Sum them.
-clip_cds.HepG2_K562_Hela.tx = clip_cds.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
-clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
-  mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
-  left_join(clip_cds.HepG2_K562_Hela.tx) %>%
-  mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
-         mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
-         mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
-clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl
-
-clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
-
-clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,3), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = TRUE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(2.1, 2.7, 2.0),4), ylabel = expression(log[10]~CLIP~xlinks~CDS), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
-clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl.violin
-# facet        .y.   group1               group2    n1    n2 statistic        p    p.adj p.adj.signif y.position groups        xmin  xmax
-#    <fct>        <chr> <chr>                <chr>  <int> <int>     <dbl>    <dbl>    <dbl> <chr>             <dbl> <named list> <dbl> <dbl>
-#  1 TARDBP^G298S lfc   "Non\nRedistributed" Nuc    95671   115  3330973  2.43e-13 7.29e-13 ****                2.1 <chr [2]>        1     2
-#  2 TARDBP^G298S lfc   "Non\nRedistributed" Cyto   95671   168  6107002  7.24e- 8 1.45e- 7 ****                2.7 <chr [2]>        1     3
-#  3 TARDBP^G298S lfc   "Nuc"                Cyto     115   168    11516. 6   e- 3 6   e- 3 **                  2   <chr [2]>        2     3
-#  4 VCP^R155C    lfc   "Non\nRedistributed" Nuc    95706   129  4704956. 2.93e- 6 8.79e- 6 ****                2.1 <chr [2]>        1     2
-#  5 VCP^R155C    lfc   "Non\nRedistributed" Cyto   95706   119  4378255  1.27e- 5 2.54e- 5 ****                2.7 <chr [2]>        1     3
-#  6 VCP^R155C    lfc   "Nuc"                Cyto     129   119     7725  9.31e- 1 9.31e- 1 ns                  2   <chr [2]>        2     3
-#  7 VCP^R191Q    lfc   "Non\nRedistributed" Nuc    95505   136  4868498. 4.34e- 7 8.68e- 7 ****                2.1 <chr [2]>        1     2
-#  8 VCP^R191Q    lfc   "Non\nRedistributed" Cyto   95505   313 11737822. 5.11e-11 1.53e-10 ****                2.7 <chr [2]>        1     3
-#  9 VCP^R191Q    lfc   "Nuc"                Cyto     136   313    22492  3.39e- 1 3.39e- 1 ns                  2   <chr [2]>        2     3
-# 10 VCPki^R191Q  lfc   "Non\nRedistributed" Nuc    95508   141  4636826. 1.56e-10 3.12e-10 ****                2.1 <chr [2]>        1     2
-# 11 VCPki^R191Q  lfc   "Non\nRedistributed" Cyto   95508   305 10246548. 3.42e-19 1.03e-18 ****                2.7 <chr [2]>        1     3
-# 12 VCPki^R191Q  lfc   "Nuc"                Cyto     141   305    22158. 6.05e- 1 6.05e- 1 ns                  2   <chr [2]>        2     3
-# .y.   group1               group2  effsize facet            n1    n2 magnitude 
-#  * <chr> <chr>                <chr>     <dbl> <fct>         <int> <int> <ord>     
-#  1 lfc   "Non\nRedistributed" Nuc    -0.646   TARDBP^G298S 100302   117 moderate  
-#  2 lfc   "Non\nRedistributed" Cyto   -0.392   TARDBP^G298S 100302   173 small     
-#  3 lfc   "Nuc"                Cyto    0.325   TARDBP^G298S    117   173 small     
-#  4 lfc   "Non\nRedistributed" Nuc    -0.398   VCP^R155C    100341   129 small     
-#  5 lfc   "Non\nRedistributed" Cyto   -0.405   VCP^R155C    100341   122 small     
-#  6 lfc   "Nuc"                Cyto   -0.00845 VCP^R155C       129   122 negligible
-#  7 lfc   "Non\nRedistributed" Nuc    -0.380   VCP^R191Q    100138   136 small     
-#  8 lfc   "Non\nRedistributed" Cyto   -0.350   VCP^R191Q    100138   318 small     
-#  9 lfc   "Nuc"                Cyto    0.0346  VCP^R191Q       136   318 negligible
-# 10 lfc   "Non\nRedistributed" Nuc    -0.493   VCPki^R191Q  100144   141 small     
-# 11 lfc   "Non\nRedistributed" Cyto   -0.459   VCPki^R191Q  100144   307 small     
-# 12 lfc   "Nuc"                Cyto    0.0409  VCPki^R191Q     141   307 negligible
-
-
-# intron
-clip_intron.HepG2_K562_Hela # 1,239,213 introns
-clip_intron.HepG2_K562_Hela %>% count(transcript_id) # 219,870 transcripts. Transcripts have > 1 intron, as composed of multiple introns. Sum them.
-clip_intron.HepG2_K562_Hela.tx = clip_intron.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
-clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
-  mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
-  left_join(clip_intron.HepG2_K562_Hela.tx) %>%
-  mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
-         mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
-         mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
-clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl
-
-clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
-
-clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,2.7), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = TRUE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(1.8, 2.4, 1.7),4), ylabel = expression(log[10]~CLIP~xlinks~intron), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
-clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl.violin
-# facet        .y.   group1               group2     n1    n2 statistic        p    p.adj p.adj.signif y.position groups        xmin  xmax
-#    <fct>        <chr> <chr>                <chr>   <int> <int>     <dbl>    <dbl>    <dbl> <chr>             <dbl> <named list> <dbl> <dbl>
-#  1 TARDBP^G298S lfc   "Non\nRedistributed" Nuc    189836   149  9565244. 7.89e-12 1.58e-11 ****                1.8 <chr [2]>        1     2
-#  2 TARDBP^G298S lfc   "Non\nRedistributed" Cyto   189836   225 12305336. 3.63e-28 1.09e-27 ****                2.4 <chr [2]>        1     3
-#  3 TARDBP^G298S lfc   "Nuc"                Cyto      149   225    14492. 2.6 e- 2 2.6 e- 2 *                   1.7 <chr [2]>        2     3
-#  4 VCP^R155C    lfc   "Non\nRedistributed" Nuc    189865   176 11001888. 4.36e-15 8.72e-15 ****                1.8 <chr [2]>        1     2
-#  5 VCP^R155C    lfc   "Non\nRedistributed" Cyto   189865   169 10309776  8.71e-16 2.61e-15 ****                2.4 <chr [2]>        1     3
-#  6 VCP^R155C    lfc   "Nuc"                Cyto      176   169    14792  9.32e- 1 9.32e- 1 ns                  1.7 <chr [2]>        2     3
-#  7 VCP^R191Q    lfc   "Non\nRedistributed" Nuc    189622   178 12286989  3.36e-10 6.72e-10 ****                1.8 <chr [2]>        1     2
-#  8 VCP^R191Q    lfc   "Non\nRedistributed" Cyto   189622   410 25072378. 1.64e-35 4.92e-35 ****                2.4 <chr [2]>        1     3
-#  9 VCP^R191Q    lfc   "Nuc"                Cyto      178   410    32862. 5.5 e- 2 5.5 e- 2 ns                  1.7 <chr [2]>        2     3
-# 10 VCPki^R191Q  lfc   "Non\nRedistributed" Nuc    189655   185 11522122. 6.39e-16 1.28e-15 ****                1.8 <chr [2]>        1     2
-# 11 VCPki^R191Q  lfc   "Non\nRedistributed" Cyto   189655   370 19715796  3.7 e-48 1.11e-47 ****                2.4 <chr [2]>        1     3
-# 12 VCPki^R191Q  lfc   "Nuc"                Cyto      185   370    30813  5.5 e- 2 5.5 e- 2 ns                  1.7 <chr [2]>        2     3
-#  .y.   group1               group2 effsize facet            n1    n2 magnitude 
-#  * <chr> <chr>                <chr>    <dbl> <fct>         <int> <int> <ord>     
-#  1 lfc   "Non\nRedistributed" Nuc    -0.567  TARDBP^G298S 201649   150 moderate  
-#  2 lfc   "Non\nRedistributed" Cyto   -0.717  TARDBP^G298S 201649   228 moderate  
-#  3 lfc   "Nuc"                Cyto   -0.205  TARDBP^G298S    150   228 small     
-#  4 lfc   "Non\nRedistributed" Nuc    -0.591  VCP^R155C    201676   178 moderate  
-#  5 lfc   "Non\nRedistributed" Cyto   -0.621  VCP^R155C    201676   173 moderate  
-#  6 lfc   "Nuc"                Cyto   -0.0410 VCP^R155C       178   173 negligible
-#  7 lfc   "Non\nRedistributed" Nuc    -0.474  VCP^R191Q    201429   180 small     
-#  8 lfc   "Non\nRedistributed" Cyto   -0.601  VCP^R191Q    201429   418 moderate  
-#  9 lfc   "Nuc"                Cyto   -0.161  VCP^R191Q       180   418 negligible
-# 10 lfc   "Non\nRedistributed" Nuc    -0.581  VCPki^R191Q  201468   186 moderate  
-# 11 lfc   "Non\nRedistributed" Cyto   -0.729  VCPki^R191Q  201468   373 moderate  
-# 12 lfc   "Nuc"                Cyto   -0.200  VCPki^R191Q     186   373 negligible
-
-# # Entire transcript
-# clip_transcript.HepG2_K562_Hela # 227,818 transcripts
-# clip_transcript.HepG2_K562_Hela %>% count(transcript_id) # 227,818 transcripts. Transcripts have > 1 transcript, as composed of multiple transcripts. Sum them.
-# clip_transcript.HepG2_K562_Hela.tx = clip_transcript.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
-# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
-#   mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
-#   left_join(clip_transcript.HepG2_K562_Hela.tx) %>%
-#   mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
-#          mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
-#          mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
-# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl
-# 
-# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
-# 
-# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,3.6), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = FALSE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(2.7, 3.2, 2.6),4), 
-#                                                                ylabel = expression(log[10]~CLIP~xlinks~transcript), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
-# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl.violin
-
-
-# Merge
-clip_regions.untreated.nuc_vs_cyt.als_vs_ctrl.violin.merged = plot_grid(
-  clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin, clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin,
-  clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl.violin, clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl.violin,
-  nrow = 2, ncol = 2, labels = "auto")
-# clip_regions.untreated.nuc_vs_cyt.als_vs_ctrl.violin.merged
-ggsave(clip_regions.untreated.nuc_vs_cyt.als_vs_ctrl.violin.merged, filename = here(proj_path, "expression/deseq2/clip_regions.untreated.nuc_vs_cyt.als_vs_ctrl.violin.merged.png"), height = 6, width = 9)
-
-
-```
-
-
-# Table S4: RNAct RNA view
+# Table S3A: RNAct RNA view
 
 ```{r}
 RNAct_database.transcript.summarised = readRDS(here(nemo_path, "genomes/rbp-databases/rnact/RNAct_database.transcript.summarised.rds"))
@@ -3504,7 +3278,7 @@ untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx %>% filter(padj > 0.05 | is.na(padj))
 
 
 
-# Table S5: RNAct Protein view
+# Table S3B: RNAct Protein view
 
 ```{r}
 load(here(proj_path, "expression/rna-rbp-interaction/rnact/RNAct.protein_view.tardbp_vcp_ki.redistributed.Rdata")) # script rnact_protein_tdp43_fus_sfpq.R
@@ -3563,7 +3337,7 @@ RNAct.RBPs.als.redistributed.join %>% filter(tardbp.redist == "Cytoplasm" | vcp_
 ```
 
 
-# Table S6 Transite motifs
+# Table S3C Transite motifs
 
 ```{r}
 transite.tmsa.mrna.join = rename(select(tardbp_gene_exon.transite.nuclear,-p_value_n), tardbp.nuc.enrichment = enrichment, tardbp.nuc.pval = p_value, tardbp.nuc.padj = adj_p_value) %>% 
@@ -4137,9 +3911,7 @@ track_viewer_nuc_cyt(level = "gene", gene_name = "SUN1", cond1.nuc.bam = ctrl_nu
 ```
 
 
-
-
-# Table S7 MAJIQ
+# Table S4A Splicing MAJIQ
 
 ```{r}
 load(here(nygc_path,"splicing/majiq/voila-tsv/als_vs_ctrl.RData")) #postmortem
@@ -4196,8 +3968,7 @@ whole_untreated_als_vs_ctrl.voila %>% filter(vcp_r191q.redistributed != "", vcp_
 
 ```
 
-# Fig S10 MAJIQ Scatter correlation
-
+MAJIQ Scatter correlation
 
 ```{r}
 whole_untreated_als_vs_ctrl.voila_list = list("TARDBP G298S" = whole_untreated_tardbp_vs_ctrl.voila, "VCP R155C" = whole_untreated_vcp_r155c_vs_ctrl.voila, "VCP R191Q" = whole_untreated_vcp_r191q_vs_ctrl.voila, "VCP R191Q knock-in" = whole_untreated_vcp_iso_vs_ctrl.voila)
@@ -4225,7 +3996,7 @@ ggsave(whole_untreated_als_vs_ctrl.voila_list_deltapsi_plot, filename = here(pro
 
 
 
-# NYGC postmortem comparison
+NYGC postmortem comparison
 
 ```{r}
 nygc_path = here("/Volumes/lab-patanir/home/users/ziffo/proj-luscombn-patani/working/nygc-als-consortium")
@@ -4400,7 +4171,223 @@ ggsave(nygc.majiq.als_vs_ctrl.merged, filename = here(proj_path, "splicing/majiq
 
 
 
-# Fig S11 Fraction splicing
+# Fig S6 CLIP and fraction splicing
+
+## countOverlaps regions
+
+```{r}
+clip_5utr.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_5utr.HepG2_K562_Hela.rds"))
+clip_3utr.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_3utr.HepG2_K562_Hela.rds"))
+clip_cds.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_cds.HepG2_K562_Hela.rds"))
+# clip_exon.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_exon.HepG2_K562_Hela.rds"))
+clip_intron.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_intron.HepG2_K562_Hela.rds"))
+clip_transcript.HepG2_K562_Hela = readRDS(here(nemo_path,"genomes/rbp-databases/clip-bedgraphs/clip_transcript.HepG2_K562_Hela.rds"))
+
+
+# 5UTR
+clip_5utr.HepG2_K562_Hela # 153,186 5UTRs
+clip_5utr.HepG2_K562_Hela %>% count(transcript_id) # 84,046 transcripts. Some transcripts have > 1 5UTR, as composed of multiple exons. Sum them.
+clip_5utr.HepG2_K562_Hela.tx = clip_5utr.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
+clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
+  mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
+  left_join(clip_5utr.HepG2_K562_Hela.tx) %>%
+  mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
+         mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
+         mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
+clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl
+
+clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
+
+clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,2.3), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = TRUE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(1.7, 2.1, 1.6),4), ylabel = expression(log[10]~CLIP~xlinks~5~UTR), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
+clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin
+# facet        .y.   group1               group2    n1    n2 statistic            p        p.adj p.adj.signif y.position groups        xmin  xmax
+#    <fct>        <chr> <chr>                <chr>  <int> <int>     <dbl>        <dbl>        <dbl> <chr>             <dbl> <named list> <dbl> <dbl>
+#  1 TARDBP^G298S lfc   "Non\nRedistributed" Nuc    75078    88  2569415  0.000308     0.000924     ***                 1.7 <chr [2]>        1     2
+#  2 TARDBP^G298S lfc   "Non\nRedistributed" Cyto   75078   148  5026126. 0.045        0.09         ns                  2.1 <chr [2]>        1     3
+#  3 TARDBP^G298S lfc   "Nuc"                Cyto      88   148     7384. 0.086        0.09         ns                  1.6 <chr [2]>        2     3
+#  4 VCP^R155C    lfc   "Non\nRedistributed" Nuc    75094   111  3906231  0.253        0.506        ns                  1.7 <chr [2]>        1     2
+#  5 VCP^R155C    lfc   "Non\nRedistributed" Cyto   75094   109  3738001  0.117        0.351        ns                  2.1 <chr [2]>        1     3
+#  6 VCP^R155C    lfc   "Nuc"                Cyto     111   109     5896. 0.747        0.747        ns                  1.6 <chr [2]>        2     3
+#  7 VCP^R191Q    lfc   "Non\nRedistributed" Nuc    74937   109  3651746. 0.056        0.112        ns                  1.7 <chr [2]>        1     2
+#  8 VCP^R191Q    lfc   "Non\nRedistributed" Cyto   74937   268  8704930. 0.000165     0.000495     ***                 2.1 <chr [2]>        1     3
+#  9 VCP^R191Q    lfc   "Nuc"                Cyto     109   268    14230. 0.695        0.695        ns                  1.6 <chr [2]>        2     3
+# 10 VCPki^R191Q  lfc   "Non\nRedistributed" Nuc    74915   120  3564576. 0.0000871    0.000174     ***                 1.7 <chr [2]>        1     2
+# 11 VCPki^R191Q  lfc   "Non\nRedistributed" Cyto   74915   279  8450300. 0.0000000325 0.0000000975 ****                2.1 <chr [2]>        1     3
+# 12 VCPki^R191Q  lfc   "Nuc"                Cyto     120   279    17257  0.625        0.625        ns                  1.6 <chr [2]>        2     3
+# .y.   group1               group2 effsize facet           n1    n2 magnitude 
+#  * <chr> <chr>                <chr>    <dbl> <fct>        <int> <int> <ord>     
+#  1 lfc   "Non\nRedistributed" Nuc    -0.398  TARDBP^G298S 83797    93 small     
+#  2 lfc   "Non\nRedistributed" Cyto   -0.159  TARDBP^G298S 83797   156 negligible
+#  3 lfc   "Nuc"                Cyto    0.269  TARDBP^G298S    93   156 small     
+#  4 lfc   "Non\nRedistributed" Nuc    -0.133  VCP^R155C    83819   113 negligible
+#  5 lfc   "Non\nRedistributed" Cyto   -0.149  VCP^R155C    83819   114 negligible
+#  6 lfc   "Nuc"                Cyto   -0.0176 VCP^R155C      113   114 negligible
+#  7 lfc   "Non\nRedistributed" Nuc    -0.179  VCP^R191Q    83644   115 negligible
+#  8 lfc   "Non\nRedistributed" Cyto   -0.229  VCP^R191Q    83644   287 small     
+#  9 lfc   "Nuc"                Cyto   -0.0545 VCP^R191Q      115   287 negligible
+# 10 lfc   "Non\nRedistributed" Nuc    -0.363  VCPki^R191Q  83635   122 small     
+# 11 lfc   "Non\nRedistributed" Cyto   -0.327  VCPki^R191Q  83635   289 small     
+# 12 lfc   "Nuc"                Cyto    0.0427 VCPki^R191Q    122   289 negligible
+
+# 3utr
+clip_3utr.HepG2_K562_Hela # 155,153 3utrs
+clip_3utr.HepG2_K562_Hela %>% count(transcript_id) # 77,060 transcripts. Some transcripts have > 1 3utr, as composed of multiple exons. Sum them.
+clip_3utr.HepG2_K562_Hela.tx = clip_3utr.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
+clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
+  mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
+  left_join(clip_3utr.HepG2_K562_Hela.tx) %>%
+  mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
+         mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
+         mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
+clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl
+
+clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
+
+clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,2.6), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = TRUE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(2.0, 2.4, 1.9),4), ylabel = expression(log[10]~CLIP~xlinks~3~UTR), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
+clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin
+# facet        .y.   group1               group2    n1    n2 statistic        p    p.adj p.adj.signif y.position groups        xmin  xmax
+#    <fct>        <chr> <chr>                <chr>  <int> <int>     <dbl>    <dbl>    <dbl> <chr>             <dbl> <named list> <dbl> <dbl>
+#  1 TARDBP^G298S lfc   "Non\nRedistributed" Nuc    71454   109  2576283  9.63e-10 2.89e- 9 ****                2   <chr [2]>        1     2
+#  2 TARDBP^G298S lfc   "Non\nRedistributed" Cyto   71454   156  4493683  2.83e- 5 5.66e- 5 ****                2.4 <chr [2]>        1     3
+#  3 TARDBP^G298S lfc   "Nuc"                Cyto     109   156     9950. 1.8 e- 2 1.8 e- 2 *                   1.9 <chr [2]>        2     3
+#  4 VCP^R155C    lfc   "Non\nRedistributed" Nuc    71488   120  3380240. 5.87e- 5 1.76e- 4 ***                 2   <chr [2]>        1     2
+#  5 VCP^R155C    lfc   "Non\nRedistributed" Cyto   71488   111  3322616  3   e- 3 6   e- 3 **                  2.4 <chr [2]>        1     3
+#  6 VCP^R155C    lfc   "Nuc"                Cyto     120   111     6974  5.37e- 1 5.37e- 1 ns                  1.9 <chr [2]>        2     3
+#  7 VCP^R191Q    lfc   "Non\nRedistributed" Nuc    71292   129  3670756. 7.35e- 5 1.47e- 4 ***                 2   <chr [2]>        1     2
+#  8 VCP^R191Q    lfc   "Non\nRedistributed" Cyto   71292   298  8508170. 2.87e- 9 8.61e- 9 ****                2.4 <chr [2]>        1     3
+#  9 VCP^R191Q    lfc   "Nuc"                Cyto     129   298    19302. 9.46e- 1 9.46e- 1 ns                  1.9 <chr [2]>        2     3
+# 10 VCPki^R191Q  lfc   "Non\nRedistributed" Nuc    71301   130  3807770. 4.32e- 4 8.64e- 4 ***                 2   <chr [2]>        1     2
+# 11 VCPki^R191Q  lfc   "Non\nRedistributed" Cyto   71301   288  7394617  2.25e-16 6.75e-16 ****                2.4 <chr [2]>        1     3
+# 12 VCPki^R191Q  lfc   "Nuc"                Cyto     130   288    16800. 9.3 e- 2 9.3 e- 2 ns                  1.9 <chr [2]>        2     3
+#  .y.   group1               group2 effsize facet           n1    n2 magnitude 
+#  * <chr> <chr>                <chr>    <dbl> <fct>        <int> <int> <ord>     
+#  1 lfc   "Non\nRedistributed" Nuc    -0.553  TARDBP^G298S 76787   110 moderate  
+#  2 lfc   "Non\nRedistributed" Cyto   -0.341  TARDBP^G298S 76787   163 small     
+#  3 lfc   "Nuc"                Cyto    0.270  TARDBP^G298S   110   163 small     
+#  4 lfc   "Non\nRedistributed" Nuc    -0.356  VCP^R155C    76825   120 small     
+#  5 lfc   "Non\nRedistributed" Cyto   -0.289  VCP^R155C    76825   115 small     
+#  6 lfc   "Nuc"                Cyto    0.0764 VCP^R155C      120   115 negligible
+#  7 lfc   "Non\nRedistributed" Nuc    -0.347  VCP^R191Q    76622   132 small     
+#  8 lfc   "Non\nRedistributed" Cyto   -0.330  VCP^R191Q    76622   306 small     
+#  9 lfc   "Nuc"                Cyto    0.0195 VCP^R191Q      132   306 negligible
+# 10 lfc   "Non\nRedistributed" Nuc    -0.320  VCPki^R191Q  76636   130 small     
+# 11 lfc   "Non\nRedistributed" Cyto   -0.479  VCPki^R191Q  76636   294 small     
+# 12 lfc   "Nuc"                Cyto   -0.206  VCPki^R191Q    130   294 small     
+
+# cds
+clip_cds.HepG2_K562_Hela # 763,579 cdss
+clip_cds.HepG2_K562_Hela %>% count(transcript_id) # 100,592 transcripts. Transcripts have > 1 cds, as composed of multiple cdss. Sum them.
+clip_cds.HepG2_K562_Hela.tx = clip_cds.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
+clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
+  mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
+  left_join(clip_cds.HepG2_K562_Hela.tx) %>%
+  mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
+         mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
+         mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
+clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl
+
+clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
+
+clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,3), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = TRUE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(2.1, 2.7, 2.0),4), ylabel = expression(log[10]~CLIP~xlinks~CDS), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
+clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl.violin
+# facet        .y.   group1               group2    n1    n2 statistic        p    p.adj p.adj.signif y.position groups        xmin  xmax
+#    <fct>        <chr> <chr>                <chr>  <int> <int>     <dbl>    <dbl>    <dbl> <chr>             <dbl> <named list> <dbl> <dbl>
+#  1 TARDBP^G298S lfc   "Non\nRedistributed" Nuc    95671   115  3330973  2.43e-13 7.29e-13 ****                2.1 <chr [2]>        1     2
+#  2 TARDBP^G298S lfc   "Non\nRedistributed" Cyto   95671   168  6107002  7.24e- 8 1.45e- 7 ****                2.7 <chr [2]>        1     3
+#  3 TARDBP^G298S lfc   "Nuc"                Cyto     115   168    11516. 6   e- 3 6   e- 3 **                  2   <chr [2]>        2     3
+#  4 VCP^R155C    lfc   "Non\nRedistributed" Nuc    95706   129  4704956. 2.93e- 6 8.79e- 6 ****                2.1 <chr [2]>        1     2
+#  5 VCP^R155C    lfc   "Non\nRedistributed" Cyto   95706   119  4378255  1.27e- 5 2.54e- 5 ****                2.7 <chr [2]>        1     3
+#  6 VCP^R155C    lfc   "Nuc"                Cyto     129   119     7725  9.31e- 1 9.31e- 1 ns                  2   <chr [2]>        2     3
+#  7 VCP^R191Q    lfc   "Non\nRedistributed" Nuc    95505   136  4868498. 4.34e- 7 8.68e- 7 ****                2.1 <chr [2]>        1     2
+#  8 VCP^R191Q    lfc   "Non\nRedistributed" Cyto   95505   313 11737822. 5.11e-11 1.53e-10 ****                2.7 <chr [2]>        1     3
+#  9 VCP^R191Q    lfc   "Nuc"                Cyto     136   313    22492  3.39e- 1 3.39e- 1 ns                  2   <chr [2]>        2     3
+# 10 VCPki^R191Q  lfc   "Non\nRedistributed" Nuc    95508   141  4636826. 1.56e-10 3.12e-10 ****                2.1 <chr [2]>        1     2
+# 11 VCPki^R191Q  lfc   "Non\nRedistributed" Cyto   95508   305 10246548. 3.42e-19 1.03e-18 ****                2.7 <chr [2]>        1     3
+# 12 VCPki^R191Q  lfc   "Nuc"                Cyto     141   305    22158. 6.05e- 1 6.05e- 1 ns                  2   <chr [2]>        2     3
+# .y.   group1               group2  effsize facet            n1    n2 magnitude 
+#  * <chr> <chr>                <chr>     <dbl> <fct>         <int> <int> <ord>     
+#  1 lfc   "Non\nRedistributed" Nuc    -0.646   TARDBP^G298S 100302   117 moderate  
+#  2 lfc   "Non\nRedistributed" Cyto   -0.392   TARDBP^G298S 100302   173 small     
+#  3 lfc   "Nuc"                Cyto    0.325   TARDBP^G298S    117   173 small     
+#  4 lfc   "Non\nRedistributed" Nuc    -0.398   VCP^R155C    100341   129 small     
+#  5 lfc   "Non\nRedistributed" Cyto   -0.405   VCP^R155C    100341   122 small     
+#  6 lfc   "Nuc"                Cyto   -0.00845 VCP^R155C       129   122 negligible
+#  7 lfc   "Non\nRedistributed" Nuc    -0.380   VCP^R191Q    100138   136 small     
+#  8 lfc   "Non\nRedistributed" Cyto   -0.350   VCP^R191Q    100138   318 small     
+#  9 lfc   "Nuc"                Cyto    0.0346  VCP^R191Q       136   318 negligible
+# 10 lfc   "Non\nRedistributed" Nuc    -0.493   VCPki^R191Q  100144   141 small     
+# 11 lfc   "Non\nRedistributed" Cyto   -0.459   VCPki^R191Q  100144   307 small     
+# 12 lfc   "Nuc"                Cyto    0.0409  VCPki^R191Q     141   307 negligible
+
+
+# intron
+clip_intron.HepG2_K562_Hela # 1,239,213 introns
+clip_intron.HepG2_K562_Hela %>% count(transcript_id) # 219,870 transcripts. Transcripts have > 1 intron, as composed of multiple introns. Sum them.
+clip_intron.HepG2_K562_Hela.tx = clip_intron.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
+clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
+  mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
+  left_join(clip_intron.HepG2_K562_Hela.tx) %>%
+  mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
+         mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
+         mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
+clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl
+
+clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
+
+clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,2.7), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = TRUE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(1.8, 2.4, 1.7),4), ylabel = expression(log[10]~CLIP~xlinks~intron), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
+clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl.violin
+# facet        .y.   group1               group2     n1    n2 statistic        p    p.adj p.adj.signif y.position groups        xmin  xmax
+#    <fct>        <chr> <chr>                <chr>   <int> <int>     <dbl>    <dbl>    <dbl> <chr>             <dbl> <named list> <dbl> <dbl>
+#  1 TARDBP^G298S lfc   "Non\nRedistributed" Nuc    189836   149  9565244. 7.89e-12 1.58e-11 ****                1.8 <chr [2]>        1     2
+#  2 TARDBP^G298S lfc   "Non\nRedistributed" Cyto   189836   225 12305336. 3.63e-28 1.09e-27 ****                2.4 <chr [2]>        1     3
+#  3 TARDBP^G298S lfc   "Nuc"                Cyto      149   225    14492. 2.6 e- 2 2.6 e- 2 *                   1.7 <chr [2]>        2     3
+#  4 VCP^R155C    lfc   "Non\nRedistributed" Nuc    189865   176 11001888. 4.36e-15 8.72e-15 ****                1.8 <chr [2]>        1     2
+#  5 VCP^R155C    lfc   "Non\nRedistributed" Cyto   189865   169 10309776  8.71e-16 2.61e-15 ****                2.4 <chr [2]>        1     3
+#  6 VCP^R155C    lfc   "Nuc"                Cyto      176   169    14792  9.32e- 1 9.32e- 1 ns                  1.7 <chr [2]>        2     3
+#  7 VCP^R191Q    lfc   "Non\nRedistributed" Nuc    189622   178 12286989  3.36e-10 6.72e-10 ****                1.8 <chr [2]>        1     2
+#  8 VCP^R191Q    lfc   "Non\nRedistributed" Cyto   189622   410 25072378. 1.64e-35 4.92e-35 ****                2.4 <chr [2]>        1     3
+#  9 VCP^R191Q    lfc   "Nuc"                Cyto      178   410    32862. 5.5 e- 2 5.5 e- 2 ns                  1.7 <chr [2]>        2     3
+# 10 VCPki^R191Q  lfc   "Non\nRedistributed" Nuc    189655   185 11522122. 6.39e-16 1.28e-15 ****                1.8 <chr [2]>        1     2
+# 11 VCPki^R191Q  lfc   "Non\nRedistributed" Cyto   189655   370 19715796  3.7 e-48 1.11e-47 ****                2.4 <chr [2]>        1     3
+# 12 VCPki^R191Q  lfc   "Nuc"                Cyto      185   370    30813  5.5 e- 2 5.5 e- 2 ns                  1.7 <chr [2]>        2     3
+#  .y.   group1               group2 effsize facet            n1    n2 magnitude 
+#  * <chr> <chr>                <chr>    <dbl> <fct>         <int> <int> <ord>     
+#  1 lfc   "Non\nRedistributed" Nuc    -0.567  TARDBP^G298S 201649   150 moderate  
+#  2 lfc   "Non\nRedistributed" Cyto   -0.717  TARDBP^G298S 201649   228 moderate  
+#  3 lfc   "Nuc"                Cyto   -0.205  TARDBP^G298S    150   228 small     
+#  4 lfc   "Non\nRedistributed" Nuc    -0.591  VCP^R155C    201676   178 moderate  
+#  5 lfc   "Non\nRedistributed" Cyto   -0.621  VCP^R155C    201676   173 moderate  
+#  6 lfc   "Nuc"                Cyto   -0.0410 VCP^R155C       178   173 negligible
+#  7 lfc   "Non\nRedistributed" Nuc    -0.474  VCP^R191Q    201429   180 small     
+#  8 lfc   "Non\nRedistributed" Cyto   -0.601  VCP^R191Q    201429   418 moderate  
+#  9 lfc   "Nuc"                Cyto   -0.161  VCP^R191Q       180   418 negligible
+# 10 lfc   "Non\nRedistributed" Nuc    -0.581  VCPki^R191Q  201468   186 moderate  
+# 11 lfc   "Non\nRedistributed" Cyto   -0.729  VCPki^R191Q  201468   373 moderate  
+# 12 lfc   "Nuc"                Cyto   -0.200  VCPki^R191Q     186   373 negligible
+
+# # Entire transcript
+# clip_transcript.HepG2_K562_Hela # 227,818 transcripts
+# clip_transcript.HepG2_K562_Hela %>% count(transcript_id) # 227,818 transcripts. Transcripts have > 1 transcript, as composed of multiple transcripts. Sum them.
+# clip_transcript.HepG2_K562_Hela.tx = clip_transcript.HepG2_K562_Hela %>% group_by(transcript_id) %>% summarise(sum_iclip_score = sum(sum_iclip_score), mean_iclip_score = sum(mean_iclip_score)) 
+# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl =  bind_rows(mutate(untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx, mutation = "TARDBP^G298S"), mutate(untreated.nuc_vs_cyt.vcp_r155c_vs_ctrl$res.tx, mutation = "VCP^R155C"),
+#   mutate(untreated.nuc_vs_cyt.vcp_r191q_vs_ctrl$res.tx, mutation = "VCP^R191Q"), mutate(untreated.nuc_vs_cyt.vcp_iso_vs_ctrl$res.tx, mutation = "VCPki^R191Q")) %>%
+#   left_join(clip_transcript.HepG2_K562_Hela.tx) %>%
+#   mutate(log10.sum_iclip_score = log10(sum_iclip_score), log10.mean_iclip_score = log10(mean_iclip_score), 
+#          mislocalisation = case_when(padj < 0.05 & log2FoldChange > 0 ~ "Nuc", padj < 0.05 & log2FoldChange < 0 ~ "Cyto", TRUE ~ "Non\nRedistributed"),
+#          mislocalisation = factor(mislocalisation, levels = c("Non\nRedistributed", "Nuc", "Cyto")), mutation = factor(mutation, levels = c("TARDBP^G298S","VCP^R155C", "VCP^R191Q", "VCPki^R191Q"))) %>% drop_na(log10.mean_iclip_score)
+# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl
+# 
+# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl %>% my_summarise(log10.mean_iclip_score, mislocalisation, mutation)
+# 
+# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl.violin = violin_plot(clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl, color_by = "mislocalisation", continuous = "log10.mean_iclip_score", ylims = c(-1,3.6), facet_by = "mutation", facet_ncol = 4, facet_labeller = "label_parsed", plot_stats = FALSE, stats_test = "t_test", tip_length = 0.001, stat_label = "p.adj.signif", stat_ypos = rep(c(2.7, 3.2, 2.6),4), 
+#                                                                ylabel = expression(log[10]~CLIP~xlinks~transcript), xlabel = "", cols = c("grey", "firebrick2", "dodgerblue2"), dpi = 300, arrow_labels = FALSE)
+# clip_transcript.untreated.nuc_vs_cyt.als_vs_ctrl.violin
+
+
+```
+
+
+## Fraction splicing
 
 ```{r}
 # nuclear_untreated_tardbp_vs_ctrl.voila = read_voila_deltapsi(here(collab_path,"motor-neuron-vcp-inhibitor-harley-2022/splicing/majiq/voila-tsv/nuclear_untreated_tardbp_vs_ctrl.tsv"), grp1 = "tardbp_untreated_nuclear", grp2 = "ctrl_untreated_nuclear")
@@ -4600,17 +4587,25 @@ nuclear_cytoplasm_untreated_mutants_vs_ctrl.modulizer.bind.barplot
 
 
 
+# Merge
+clip_regions.untreated.nuc_vs_cyt.als_vs_ctrl.violin.merged = plot_grid(
+  clip_5utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin, clip_3utr.untreated.nuc_vs_cyt.als_vs_ctrl.violin,
+  clip_cds.untreated.nuc_vs_cyt.als_vs_ctrl.violin, clip_intron.untreated.nuc_vs_cyt.als_vs_ctrl.violin,
+  nrow = 2, ncol = 2, labels = "auto")
+# clip_regions.untreated.nuc_vs_cyt.als_vs_ctrl.violin.merged
 fraction_splicing.merged = plot_grid(
   plot_grid(whole_nuc_cyt_untreated_tardbp_vs_ctrl.voila.bind.upset, whole_nuc_cyt_untreated_vcp_r155c_vs_ctrl.voila.bind.upset, whole_nuc_cyt_untreated_vcp_r191q_vs_ctrl.voila.bind.upset, whole_nuc_cyt_untreated_vcp_iso_vs_ctrl.voila.bind.upset, ncol = 4),
-  plot_grid(whole_nuclear_cytoplasm_als_vs_ctrl.voila.deltapsi_correlation_ggheatmap, nuclear_cytoplasm_untreated_mutants_vs_ctrl.modulizer.bind.barplot, ncol = 2, labels = letters[2:3], rel_widths = c(1,3)),
-  nrow = 2, rel_heights = c(0.8,1.2), labels = c("a",""))
+  plot_grid(whole_nuclear_cytoplasm_als_vs_ctrl.voila.deltapsi_correlation_ggheatmap, nuclear_cytoplasm_untreated_mutants_vs_ctrl.modulizer.bind.barplot, ncol = 2, labels = letters[6:7], rel_widths = c(1,3)),
+  nrow = 2, rel_heights = c(0.8,1.2), labels = c("e",""))
 # fraction_splicing.merged
-ggsave(fraction_splicing.merged, filename = here(proj_path, "splicing/majiq/fraction_splicing.merged.png"), height = 7, width = 12)
+clip_regions.fraction_splicing.merged = plot_grid(clip_regions.untreated.nuc_vs_cyt.als_vs_ctrl.violin.merged, fraction_splicing.merged, nrow = 2, rel_heights =c(1,1))
+# clip_regions.fraction_splicing.merged
+ggsave(clip_regions.fraction_splicing.merged, filename = here(proj_path, "expression/deseq2/clip_regions.fraction_splicing.merged.png"), height = 12, width = 10)
 
 ```
 
 
-# Table S8 MAJIQ fractions
+# Table S4B MAJIQ fractions
 
 ```{r}
 whole_tardbp.voila.sig_lsv = whole_untreated_tardbp_vs_ctrl.voila %>% filter(changing_dpsi0.2 == TRUE) %>% pull(lsv_junction_id)
@@ -5210,7 +5205,7 @@ ggsave(vcp_tardbp_protein_redistribution.merged, filename = here(proj_path, "mas
 
 
 
-# Table S8 Protein mislocalisation
+# Table S5 Protein mislocalisation
 
 ```{r}
 untreated.als_vs_ctrl.nuc_vs_cyt.dep = readRDS(file = here(proj_path, "scripts/untreated.als_vs_ctrl.nuc_vs_cyt.dep.rds"))
@@ -5268,7 +5263,7 @@ untreated.vcp_tardbp_vs_ctrl.nuc_vs_cyt.res.dep.join %>% filter(grepl("FUS", gen
 ```
 
 
-# Fig S12 Compare mutations
+# Fig S7 Compare mutations
 
 ## RNAseq & mass spec correlation
 
@@ -5348,7 +5343,7 @@ ggsave(untreated.als_vs_ctrl.nuc_vs_cyt.dep_list_stat_scatter_upset, filename = 
 ```
 
 
-# Table S9 RNAct protein summarised
+# Table S6A RNAct protein summarised
 
 ```{r}
 RNAct.tardbp.nuclear.protein_sum = RNAct_database.tardbp.nuclear_protein_transcript %>% group_by(uniprot_accession) %>% summarise(tardbp.nuclear = sum(catrapid_score_max_normalised)) %>% arrange(-tardbp.nuclear)
@@ -5378,7 +5373,7 @@ RNAct.tardbp_vcp_r155c_ki.nuclear_cytoplasm.protein_sum %>% filter(!is.na(tardbp
 ```
 
 
-# Table S10 RNAct transcript summarised
+# Table S6B RNAct transcript summarised
 
 ```{r}
 RNAct.tardbp.nuclear.transcript_sum = RNAct_database.tardbp.nuclear_protein_transcript %>% group_by(transcript_id) %>% summarise(tardbp.nuclear = sum(catrapid_score_max_normalised)) %>% arrange(-tardbp.nuclear)
@@ -5408,7 +5403,7 @@ select(RNAct.tardbp_vcp_r155c_ki.nuclear_cytoplasm.protein_sum, gene_name, total
 ```
 
 
-# Fig S13 Heatmap nuclear export NPC proteins
+# Fig S8 Heatmap nuclear export NPC proteins
 
 ```{r}
 load(file = here(proj_path, "scripts/dep_mass_spec.untreated.als_vs_ctrl.nuc_cyt.RData"))
@@ -5443,14 +5438,14 @@ nuclear_export.l2fc.marker.scaled_mat = t(scale(t(nuclear_export.l2fc.marker.mat
 
 nuclear_export.markers.mass_spec.cluster.heatmap <- Heatmap(nuclear_export.l2fc.marker.mat, 
           border = TRUE, heatmap_legend_param = list(title = "", direction = "vertical"), #, annotation_legend_side = "bottom"), show_heatmap_legend = FALSE,
-          column_names_rot = 90, column_names_gp = gpar(fontsize = 10), 
+          column_names_rot = 90, column_names_gp = gpar(fontsize = 12), 
           row_order = nuclear_export.markers.df.filt$gene_name, 
           row_split = nuclear_export.markers.df.filt$group,
-          right_annotation = rowAnnotation(markers = anno_block(gp = gpar(fill = rep("white",8)), labels = c("NPC\nBasket", "NPC\nOrganisation", "Nuclear\nPore","Export\nSignal","Carrier\nActivity","TREX", "RNA\nExport","Nuclear\nExport"), labels_gp = gpar(fontsize = 7), labels_rot = 0)), row_title = NULL,
-          row_names_gp = gpar(fontsize = 5), #show_row_names = FALSE, 
+          right_annotation = rowAnnotation(markers = anno_block(gp = gpar(fill = rep("white",8)), labels = c("NPC\nBasket", "NPC\nOrganisation", "Nuclear\nPore","Export\nSignal","Carrier\nActivity","TREX", "RNA\nExport","Nuclear\nExport"), labels_gp = gpar(fontsize = 10), labels_rot = 0)), row_title = NULL,
+          row_names_gp = gpar(fontsize = 6), #show_row_names = FALSE, 
           column_title = NULL, cluster_columns = FALSE, cluster_row_slices = FALSE, cluster_rows = FALSE)
 nuclear_export.markers.mass_spec.cluster.heatmap
-ggsave(as.ggplot(nuclear_export.markers.mass_spec.cluster.heatmap), filename = here(proj_path,"expression/deseq2/nuclear_export.markers.mass_spec.cluster.heatmap.png"), width = 9, height = 13)
+ggsave(as.ggplot(nuclear_export.markers.mass_spec.cluster.heatmap), filename = here(proj_path,"expression/deseq2/nuclear_export.markers.mass_spec.cluster.heatmap.png"), width = 9.5, height = 13)
 
 nuclear_export.l2fc.marker %>% left_join(nuclear_export.markers.df) %>% filter(TARDBP < 0, VCP.R155C < 0, VCP.R191Q < 0, VCP.KI < 0) %>% mutate(sum = TARDBP + VCP.R155C + VCP.R191Q + VCP.KI) %>% arrange(sum)
 
@@ -5465,7 +5460,7 @@ nuclear_export.marker.bind %>% arrange(padj)
 ```
 
 
-# Fig S14 QC ML240 samples
+# Fig S9 QC ML240 samples
 
 ## Viability
 
@@ -6154,7 +6149,7 @@ ggsave(ml240.transcript_protein.lysosome.ros.merged, filename = here(proj_path, 
 ```
 
 
-# Table S12 ML240 Transcript redistribution
+# Table S7A ML240 Transcript redistribution
 
 ```{r}
 untreated.tardbp.nuc = untreated.nuc_vs_cyt.tardbp_vs_ctrl$res.tx %>% filter(padj<0.05,stat>0) %>% pull(transcript_id)
@@ -6193,7 +6188,7 @@ write_sheet(ml240.vcp_tardbp_vs_ctrl.nuc_vs_cyt.res.tx.join, ss = "https://docs.
 ```
 
 
-# Fig S16 ML240 Transcript redistribution
+# Fig S10 ML240 Transcript redistribution
 
 
 ## Compare nuc/cyt ML240 with untreated controls
@@ -6845,8 +6840,7 @@ ggsave(ml240.transcript_redistribution.merged, filename = here(proj_path, "expre
 
 
 
-
-# Fig S17 Redistributed transcript features
+Redistributed transcript features
 
 
 ```{r}
@@ -7102,7 +7096,7 @@ ggsave(untreated_ml240.nuc_vs_cyt.als_vs_ctrl.sequence_features.violin.merged, f
 ```
 
 
-# Fig S18 ML240 splicing
+# Fig S11 ML240 splicing
 
 ```{r}
 load(here(proj_path, "scripts/whole_ml240_majiq_objects.RData"))
@@ -7415,7 +7409,7 @@ ggsave(ml240_splicing.merged, filename = here(proj_path, "splicing/majiq/ml240_s
 
 
 
-# Table S13 ML240 Splicing
+# Table S7B ML240 Splicing
 
 ```{r}
 untreated.tardbp.up = whole_untreated_tardbp_vs_ctrl.voila %>% filter(changing_dpsi0.2==TRUE,deltapsi>0) %>% pull(lsv_junction_id)
@@ -7466,7 +7460,7 @@ ctrl_vcp_tardbp.ml240.nuc_vs_cyt.dep.join.filt %>% filter(gene_name == "TARDBP")
 ```
 
 
-# Fig S19 ML240 Protein mislocalisation
+# Fig S12 ML240 Protein mislocalisation
 
 ## TARDBP Volcano  & GO
 
@@ -8004,7 +7998,7 @@ ggsave(ml240.vcp_tardbp_protein_redistribution.merged, filename = here(proj_path
 ```
 
 
-# Table S14 ML240 Protein mislocalisation
+# Table S7C ML240 Protein mislocalisation
 
 ```{r}
 untreated.tardbp.nuc = untreated.tardbp_vs_ctrl.nuc_vs_cyt.dep$res %>% filter(padj<0.05,stat>0) %>% pull(gene_name)
@@ -8057,7 +8051,7 @@ ctrl_vcp_tardbp.ml240.nuc_vs_cyt.dep.join.filt %>% filter(gene_name == "TARDBP")
 ```
 
 
-# Fig S20 Co-immunoprecipitation
+# Fig S13 Co-immunoprecipitation
 
 VCP protein pull down blot
 
@@ -8530,7 +8524,7 @@ ggsave(coip.ctrl_als.nuc_cyt.ml240_vs_untreated.volano_go.merged, filename = her
 
 ```
 
-# Table S13 Co-IP ML240 vs untreated
+# Table S8 Co-IP ML240 vs untreated
 
 ```{r}
 tardbp.ml240_relocalised <- untreated.tardbp_vs_ctrl.nuc_vs_cyt.dep$res %>% filter(padj < 0.05, !gene_name %in% pull(filter(ml240.tardbp_vs_ctrl.nuc_vs_cyt.dep$res,padj<0.05),gene_name)) %>% pull(gene_name)
