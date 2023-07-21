@@ -19,4 +19,4 @@ Raw fastq files were processed with [nf-core/rnaseq](https://nf-co.re/rnaseq) v3
 Differential transcript expression was performed using DESeq2. Differential splicing was analysed with [MAJIQ v2.4](https://majiq.biociphers.org/). Differential protein expression was performed with MaxQuant followed by DEP, which is a wrapper around limma.
 
 <img src="[https://github.com/ojziff/als_mrna_rbp_localisation/figures/graphical abstract.png](https://github.com/ojziff/als_mrna_rbp_localisation/blob/main/figures/graphical%20abstract.png)" height="400">
-
+<img src="[https://github.com/ojziff/als_mrna_rbp_localisation/blob/main/figures/graphical%20abstract.png](https://github.com/ojziff/als_mrna_rbp_localisation/blob/main/figures/graphical%20abstract.png)" height="400">
